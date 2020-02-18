@@ -3,7 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from './user.service';
 
 export interface User {
-  id: number;
+  id?: number;
+  _id?: number;
   name: string;
   email: string;
   password: string;
@@ -18,6 +19,8 @@ export class AppComponent {
   title = 'tpm-connect';
   querying = false;
   userForm;
+  formId: number = null;
+  db = 'postgresql';
   formMode;
   displayColumns: string[] = ['name', 'email', 'password', 'actions'];
   users: User[];
@@ -31,13 +34,12 @@ export class AppComponent {
 
   constructor(private userService: UserService) {
     this.formMode = 'store';
-    this.users = [
-      { id: 1, name: 'Isaac Sai', email: 'isaacsai030@gmail.com', password: 'password' }
-    ];
+    this.users = [];
     this.userForm = new FormGroup({
       name: new FormControl(''),
       email: new FormControl(''),
-      password: new FormControl('password')
+      password: new FormControl('password'),
+      connection: new FormControl('connection')
     });
 
     this.userService.all().subscribe((data: User[]) => {
@@ -48,15 +50,52 @@ export class AppComponent {
   sendForm(value: any) {
     this.querying = true;
     if (this.formMode === 'update') {
-      this.userService.update(value).subscribe((data: User) => {
+      this.userService.update(this.formId, value).subscribe((data: User) => {
         console.log(data);
         this.querying = false;
+        this.userForm.reset();
       });
     } else {
       this.userService.store(value).subscribe((data: User) => {
         console.log(data);
         this.querying = false;
+        this.userForm.reset();
       });
     }
+  }
+
+  getUsers(db: string) {
+    this.db = db;
+    this.userService.all(db).subscribe((data: User[]) => {
+      console.log(data);
+      this.users = data;
+    });
+  }
+
+  editUser(user: User) {
+    this.formMode = 'update';
+    this.userForm.setValue({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      connection: this.db
+    });
+    this.formId = user?.id ?? user?._id;
+    console.log(user);
+    console.log(this.formId);
+  }
+
+  deleteUser(user: User) {
+    const result = confirm('Are you sure you want to delete ' + user.name + ' ?');
+    if (result) {
+      this.userService.delete(user?.id ?? user?._id, this.db).subscribe((data) => {
+        console.log(data);
+      });
+    }
+  }
+
+  cancelUpdate() {
+    this.formMode = 'create';
+    this.userForm.reset();
   }
 }

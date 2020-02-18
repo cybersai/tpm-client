@@ -11,8 +11,8 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
-  all() {
-    return this.httpClient.get(this.BASE_URL, {
+  all(db: string = 'postgresql') {
+    return this.httpClient.get(this.BASE_URL + '?connection=' + db, {
       headers
     });
   }
@@ -23,14 +23,15 @@ export class UserService {
     });
   }
 
-  update(user) {
-    return this.httpClient.put(this.BASE_URL + '/' + user.id, user, {
+  update(id, user) {
+    console.log(user);
+    return this.httpClient.put(this.BASE_URL + '/' + id, user, {
       headers
     });
   }
 
-  delete(id) {
-    return this.httpClient.delete(this.BASE_URL + '/' + id, {
+  delete(id, connection: string = 'postgresql') {
+    return this.httpClient.delete(this.BASE_URL + '/' + id + '?connection=' + connection, {
       headers
     });
   }

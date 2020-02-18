@@ -52,3 +52,12 @@
 .table {
   width: 100%;
 }
+
+.choice {
+  margin-right: .5rem;
+  margin-left: .5rem;
+}
+
+.form-button-half {
+  width: 50%;
+}

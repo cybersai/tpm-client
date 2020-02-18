@@ -3,6 +3,16 @@
 </mat-toolbar>
 <div class="container">
   <div class="container-left">
+    <mat-card>
+      <label>Choose Database</label>
+      <mat-radio-group>
+        <mat-radio-button class="choice" *ngFor="let db of databases" [value]="db.value"
+                          [checked]="db.value=='postgresql'" (change)="getUsers(db.value)">
+          {{ db.name }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </mat-card>
+    <br/>
     <table mat-table [dataSource]="users" class="table mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -18,7 +28,9 @@
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element"><a mat-button color="primary">Edit</a>&nbsp;<a mat-button color="warn">Delete</a></td>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="editUser(element)" mat-button color="primary">Edit</a>
+          <a (click)="deleteUser(element)" mat-button color="warn">Delete</a></td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
       <tr mat-row *matRowDef="let row;columns: displayColumns"></tr>
@@ -46,13 +58,21 @@
           </mat-form-field>
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Database</mat-label>
-            <mat-select>
+            <mat-select formControlName="connection">
               <mat-option *ngFor="let db of databases" [value]="db.value">
                 {{ db.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button type="submit" class="form-button" mat-flat-button color="primary">Add</button>
+          <div *ngIf="formMode == 'update';then update else store"></div>
+          <ng-template #store>
+            <button type="submit" class="form-button" mat-flat-button color="primary">Add User</button>
+          </ng-template>
+          <ng-template #update>
+            <button class="form-button-half" type="submit" mat-flat-button color='primary'>Update User</button>
+            <button (click)="cancelUpdate()" class="form-button-half" type="button" mat-stroked-button color='warn'>Cancel</button>
+          </ng-template>
+
         </form>
       </mat-card-content>
     </mat-card>

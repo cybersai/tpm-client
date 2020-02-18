@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 
@@ -31,7 +32,8 @@ import { AppComponent } from './app.component';
     MatButtonModule,
     MatTableModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]
