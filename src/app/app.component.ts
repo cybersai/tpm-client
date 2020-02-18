@@ -25,12 +25,12 @@ export class AppComponent {
   displayColumns: string[] = ['name', 'email', 'password', 'actions'];
   users: User[];
   databases: { name: string; value: string}[] = [
-    { name: 'MySQL', value: 'mysql' },
-    { name: 'Maria DB', value: 'mariadb' },
-    { name: 'Mongo DB', value: 'mongodb' },
-    { name: 'PostgreSQL', value: 'postgresql' },
-    { name: 'MsSQL', value: 'mssql' },
-    { name: 'Sqlite', value: 'sqlite' }
+    { name: 'MySQL (GIS)', value: 'mysql' },
+    { name: 'Maria DB (Passport)', value: 'mariadb' },
+    { name: 'Mongo DB (DVLA)', value: 'mongodb' },
+    { name: 'PostgreSQL (EC)', value: 'postgresql' },
+    { name: 'MsSQL (Voters)', value: 'mssql' },
+    { name: 'Sqlite (DVLA)', value: 'sqlite' }
   ];
 
   constructor(private userService: UserService) {
