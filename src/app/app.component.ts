@@ -30,6 +30,7 @@ export class AppComponent {
     { name: 'Mongo DB', value: 'mongodb' },
     { name: 'PostgreSQL', value: 'postgresql' },
     { name: 'MsSQL', value: 'mssql' },
+    { name: 'Sqlite', value: 'sqlite' }
   ];
 
   constructor(private userService: UserService) {
@@ -54,12 +55,18 @@ export class AppComponent {
         console.log(data);
         this.querying = false;
         this.userForm.reset();
+        alert('User with email: ' + data.email + ' updated successfully');
+      }, (error) => {
+        alert('Could not update user');
       });
     } else {
       this.userService.store(value).subscribe((data: User) => {
         console.log(data);
         this.querying = false;
         this.userForm.reset();
+        alert('User with email: ' + data.email + ' created successfully');
+      }, (error) => {
+        alert('Could not create user');
       });
     }
   }

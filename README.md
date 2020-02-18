@@ -11,6 +11,7 @@ A Tranaction Processing Monitor is a script that route user request to various d
 * Maria DB
 * Mongo DB
 * MsSQL
+* Sqlite
 
 ## Demo
 Heard over to the demo site [TPM Connect](https://tpm-connect.herokuapp.com)
